@@ -5,8 +5,10 @@
     become: yes
     become_method: sudo
   - git: repo=https://github.com/syakobov/myrepo.git
-         dest=~/myrepo
+         dest=~/myrepo update=no
   - git: repo=https://github.com/syakobov/spring-petclinic.git
          dest=~/petclinic
-
-
+  - name: create Maven directory
+    file: path=~/Maven state=directory mode=0755
+  - name: install Maven
+    unarchive: src="http://apache.mivzakim.net/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz" dest=~/Maven copy=no
