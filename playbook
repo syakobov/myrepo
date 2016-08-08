@@ -1,0 +1,12 @@
+- hosts: localhost
+  tasks:
+  - name: ensure apache is at the latest version
+    yum: name=git state=latest
+    become: yes
+    become_method: sudo
+  - git: repo=https://github.com/syakobov/myrepo.git
+         dest=~/myrepo
+  - git: repo=https://github.com/syakobov/spring-petclinic.git
+         dest=~/petclinic
+
+
