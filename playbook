@@ -12,3 +12,17 @@
     file: path=~/Maven state=directory mode=0755
   - name: install Maven
     unarchive: src="http://apache.mivzakim.net/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz" dest=~/Maven copy=no
+# Add a line to a file if it does not exist, without passing regexp
+#  - lineinfile: dest=~/.bash_profile line="export M2_HOME=~/Maven/apache-maven-3.3.9"
+#  - lineinfile: dest=~/.bash_profile line="export M2=${M2_HOME}/bin"
+#  - lineinfile: dest=~/.bash_profile line="export $M2:$PATH"
+  - name: set env m2_home
+    lineinfile: dest=/home/ec2-user/.bash_profile regexp="^M2_HOME.*" line="M2_HOME=/home/ec2-user/Maven/apache-maven-3.3.9" insertbefore="^PATH="
+  - name: export M2_HOME
+    lineinfile: dest=/home/ec2-user/.bash_profile insertafter="^M2_HOME=" line="export M2_HOME"
+  - name: set M2
+    lineinfile: dest=/home/ec2-user/.bash_profile insertafter="^M2_HOME=" line="M2=$M2_HOME/bin"
+  - name: export M2
+    lineinfile: dest=/home/ec2-user/.bash_profile insertafter="^M2=" line="export M2"
+  - name: Add M2 to PATH
+    lineinfile: dest=/home/ec2-user/.bash_profile regexp="^PATH=.*:$M2" insertafter="^PATH=" line="PATH=$PATH:$M2"
