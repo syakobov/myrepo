@@ -1,0 +1,9 @@
+- hosts: localhost
+  tasks:
+   - name: create image workdir
+     file: path=/home/ec2-user/image_workdir state=directory
+   - name: create Dockerfile from template
+     template: src=/home/ec2-user/repo/Dockerfile.j2 dest=/home/ec2-user/image_workdir/Dockerfile
+   - name: create image
+     docker_image: path=/home/ec2-users/image_workdir name=petclinic
+
